@@ -1,0 +1,9 @@
+# Compiled class file
+*.class
+
+# Local Maven build generated files
+target/
+classes/
+
+#idea
+.idea/
