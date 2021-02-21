@@ -1,4 +1,4 @@
-package Core;
+package com.haonan.Core;
 
 /**
  * @author: create by Hao Nan Liu

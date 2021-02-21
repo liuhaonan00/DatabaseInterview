@@ -1,4 +1,4 @@
-package Database;
+package com.haonan.Database;
 
 /**
  * @author: create by Hao Nan Liu
