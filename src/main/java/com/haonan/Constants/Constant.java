@@ -7,4 +7,8 @@ package com.haonan.Constants;
  **/
 public class Constant {
     public static String LOG_LEVEL = "info";
+    public static String INT = "Integer";
+    public static String FLOAT = "Float";
+    public static String DOUBLE = "Double";
+    public static String STR = "String";
 }

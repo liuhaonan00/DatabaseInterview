@@ -25,9 +25,11 @@ public class DBService {
 //        System.out.println("Reading database ... ");
 
         String fileName = classLoader.getResource("csv" + File.separator + "data1.csv").getPath();
+
+
         System.out.println(fileName);
         Table table = LoadData.readData(fileName);
-
+//
         System.out.println(Arrays.toString(table.getLabel()));
         System.out.println(table.getTableSize());
 
