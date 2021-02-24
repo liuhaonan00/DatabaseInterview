@@ -1,7 +1,11 @@
 package com.haonan.Database;
 
 
+import com.haonan.Common.Constant;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author: create by Hao Nan Liu
@@ -9,46 +13,29 @@ import java.util.Arrays;
  * @description:
  **/
 public class Table {
-    private int [][] data;
-    private String [] label;
+    private String [] labels;
+    private String [] formats;
     private int currentSize = 0;
-    private int labelNum = 0;
+    private List<Page> pages;
 
-    public Table(int n, String [] labels) {
-        int labelNum = labels.length;
-        data = new int [n][labelNum];
-        label = labels;
+    public Table(String [] labels) {
+        this.labels = labels;
+        formats = new String[labels.length];
+        Arrays.fill(formats, Constant.INT);
+        pages = new ArrayList<>();
 
     }
 
-    public int getTableSize() {
+    public int getDataSize() {
         return this.currentSize;
     }
 
-    public int [][] getData() {
-        return this.data;
-    }
-
-    public String [] getLabel() {
-        return this.label;
-    }
-
     public void insertData(int [] dataArr) {
-        if (currentSize == data.length) {
-            System.out.println("Insert error");
-        }
-        data[currentSize] = dataArr;
-        currentSize++;
+
     }
 
     public void insertData(String [] dataArr) {
-        if (currentSize == data.length) {
-            System.out.println("Insert error");
-        }
-        int [] datas =  Arrays.stream(dataArr).mapToInt(Integer::parseInt).toArray();
 
-        data[currentSize] = datas;
-        currentSize++;
     }
 
 

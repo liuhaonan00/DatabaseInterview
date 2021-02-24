@@ -1,4 +1,4 @@
-package com.haonan.Constants;
+package com.haonan.Common;
 
 /**
  * @author: create by Hao Nan Liu

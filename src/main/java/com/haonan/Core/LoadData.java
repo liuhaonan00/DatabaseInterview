@@ -28,11 +28,11 @@ public class LoadData {
                 lineNum++;
             }
 
-            Table t = new Table(lineNum, labels);
-            for (String [] data: dataList) {
-                t.insertData(data);
-            }
-            return t;
+//            Table t = new Table(lineNum, labels);
+//            for (String [] data: dataList) {
+//                t.insertData(data);
+//            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }

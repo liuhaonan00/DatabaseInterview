@@ -1,9 +1,8 @@
 package com.haonan.Database;
 
-import com.haonan.Constants.Constant;
+import com.haonan.Common.Library;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ public class View {
         }
         //check format
         for (int i = 0; i < tupleObj.length; i++) {
-            if (!checkFormat(tupleObj[i], formats[i])) {
+            if (!Library.checkFormat(tupleObj[i], formats[i])) {
                 throw new Exception("");
             }
         }
@@ -39,19 +38,7 @@ public class View {
         dataList.add(tuple);
     }
 
-    public boolean checkFormat(Object obj, String format) {
-        if (obj == null) return true;
-        if (obj instanceof Integer && format.equals(Constant.INT)) {
-            return true;
-        } else if (obj instanceof Double && format.equals(Constant.DOUBLE)) {
-            return true;
-        } else if (obj instanceof Float && format.equals(Constant.FLOAT)) {
-            return true;
-        } else if (obj instanceof String && format.equals(Constant.STR)) {
-            return true;
-        }
-        return false;
-    }
+
 
     public void printView() {
         //print labels
