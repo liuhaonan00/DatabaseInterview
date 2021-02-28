@@ -3,7 +3,9 @@ package com.haonan.Database;
 import com.haonan.Common.Library;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: create by Hao Nan Liu
@@ -12,14 +14,38 @@ import java.util.List;
  **/
 public class View {
     private String [] labels;
+    private Map<String, Integer> labelIdx;
     private String [] formats;
-
     private List<Tuple> dataList;
 
     public View(String [] labels, String [] formats) {
         this.labels = labels;
         this.formats = formats;
         dataList = new ArrayList<>();
+        labelIdx = new HashMap<>();
+        for (int i = 0; i < labels.length; i++) {
+            labelIdx.put(labels[i], i);
+        }
+
+    }
+
+    public int getLabelIndex(String label) throws Exception {
+        if (labelIdx.containsKey(label)) {
+            return labelIdx.get(label);
+        }
+        throw new Exception("Cannot find the label" + label + " in the view");
+    }
+
+    public String [] getLabels() {
+        return labels;
+    }
+
+    public String [] getFormats() {
+        return formats;
+    }
+
+    public List<Tuple> getTuples() {
+        return dataList;
     }
 
     public void insertTuple(Object [] tupleObj) throws Exception {

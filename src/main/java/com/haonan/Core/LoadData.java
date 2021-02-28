@@ -1,5 +1,7 @@
 package com.haonan.Core;
+import com.haonan.Database.DB;
 import com.haonan.Database.Table;
+import com.haonan.Database.Tuple;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +15,7 @@ import java.util.List;
  **/
 public class LoadData {
 
-    public static Table readData(String path) {
+    public static void readData(String path, String tableName) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(path));
             String [] labels = reader.readLine().split(",");
@@ -28,14 +30,19 @@ public class LoadData {
                 lineNum++;
             }
 
-//            Table t = new Table(lineNum, labels);
-//            for (String [] data: dataList) {
-//                t.insertData(data);
-//            }
-            return null;
+            Table t = new Table(tableName, labels);
+            for (String [] data: dataList) {
+                t.addData(data);
+            }
+
+            System.out.println(t.getTableName());
+            System.out.println(t.getDataSize());
+
+            DB.addTable(t);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+
     }
 }

@@ -1,6 +1,7 @@
 package com.haonan;
 
 import com.haonan.Aggregator.Average;
+import com.haonan.Common.Logger;
 import com.haonan.Core.LoadData;
 import com.haonan.Core.Query;
 import com.haonan.Database.Table;
@@ -18,7 +19,11 @@ import java.util.Scanner;
  **/
 public class DBService {
     private static ClassLoader classLoader = DBService.class.getClassLoader();
-    public static void main(String[] args) {
+
+
+    public static void main(String[] args) throws Exception {
+        Logger.setLogLevel("debug");
+
 //        System.out.println("Starting the SQL");
 //        if (args.length < 2) {
 //            printUsage();
@@ -30,15 +35,17 @@ public class DBService {
         String fileName = classLoader.getResource("csv" + File.separator + "data1.csv").getPath();
 
         System.out.println(fileName);
-        Table table = LoadData.readData(fileName);
+        LoadData.readData(fileName, "foo");
 //
 
         System.out.println("Please input valid sql query");
-        Scanner input = new Scanner(System.in);
-        String queryStr = input.nextLine();
+//        Scanner input = new Scanner(System.in);
+//        String queryStr = input.nextLine();
+        String queryStr = "select a, avg(b) from foo group by a";
         System.out.println(queryStr);
         Query query = new Query(queryStr);
         View resultView = query.getResult();
+        resultView.printView();
 
 
 

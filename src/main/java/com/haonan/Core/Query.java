@@ -1,5 +1,7 @@
 package com.haonan.Core;
 
+import com.haonan.Database.DB;
+import com.haonan.Database.Table;
 import com.haonan.Database.View;
 
 import java.util.Arrays;
@@ -12,23 +14,49 @@ import java.util.Arrays;
 public class Query {
     private String query;
     private String tableName;
+    private Table table;
     private String [] labels;
     private String [] groupBy;
     private String [] formats;
 
-    public Query(String q) {
+    String aggregateLabel = "";
+
+    public Query(String q) throws Exception {
         this.query = preprocess(q);
-        labels = getLabels(query);
-        groupBy = getGroupBy(query);
         tableName = getTableName(query);
+        table = DB.getTable(tableName);
+
+        labels = getLabels(query);
+        formats = getFormats(labels);
+        groupBy = getGroupBy(query);
+
+
+
     }
 
     public View getResult() {
+
+        //init view
         View view = new View(labels, formats);
+
+        //Init aggregator
+
+
+
 
         return view;
     }
 
+
+    private String [] getFormats(String [] labels) throws Exception {
+        String [] formats = new String[labels.length];
+        for (int i = 0; i < labels.length; i++) {
+            String label = labels[i];
+            formats[i] = table.getFormat(labels[i]);
+        }
+
+        return labels;
+    }
 
 
     private String [] getGroupBy(String query) {
@@ -41,6 +69,15 @@ public class Query {
     private String [] getLabels(String query) {
         String labelStr = query.split("select|from")[1].replaceAll(" ", "");
         String [] labels = labelStr.split(",");
+
+        for (int i = 0; i < labels.length; i++) {
+            if (labels[i].contains("avg")) {
+                labels[i] = labels[i].substring(4, labels[i].length()-1);
+                aggregateLabel = labels[i];
+            }
+        }
+
+
         System.out.println(Arrays.toString(labels));
         return labels;
     }
