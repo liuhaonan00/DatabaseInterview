@@ -1,5 +1,7 @@
 package com.haonan.Core;
 
+import com.haonan.Aggregator.Average;
+import com.haonan.Common.Logger;
 import com.haonan.Database.DB;
 import com.haonan.Database.Table;
 import com.haonan.Database.View;
@@ -31,38 +33,42 @@ public class Query {
         groupBy = getGroupBy(query);
 
 
-
     }
 
-    public View getResult() {
+    public View getResult() throws Exception {
 
-        //init view
-        View view = new View(labels, formats);
+        //get view from table
+        View view = table.getViewFromTable(labels);
+        if (aggregateLabel.equals("")) {
+            return view;
+        }
+
+
 
         //Init aggregator
+        Average avg = new Average(view, groupBy, aggregateLabel);
+
+        View resultView = avg.generateResultView();;
 
 
-
-
-        return view;
+        return resultView;
     }
 
 
     private String [] getFormats(String [] labels) throws Exception {
         String [] formats = new String[labels.length];
         for (int i = 0; i < labels.length; i++) {
-            String label = labels[i];
             formats[i] = table.getFormat(labels[i]);
         }
-
-        return labels;
+        Logger.debug("The formats are:" + Arrays.toString(formats));
+        return formats;
     }
 
 
     private String [] getGroupBy(String query) {
         String groupByStr = query.split("group by")[1].replaceAll(" ", "");
         String [] groupBy = groupByStr.split(",");
-        System.out.println(Arrays.toString(groupBy));
+        Logger.debug("The group by labels are:" + Arrays.toString(groupBy));
         return groupBy;
     }
 
@@ -77,15 +83,14 @@ public class Query {
             }
         }
 
-
-        System.out.println(Arrays.toString(labels));
+        Logger.debug("The labels are:" + Arrays.toString(labels));
         return labels;
     }
 
     private String getTableName(String query) {
         String tableName = query.split("from|group by")[1];
         tableName = tableName.replaceAll(" ", "");
-        System.out.println(tableName);
+        Logger.debug("The table name is: " + tableName);
         return tableName;
     }
 
@@ -123,7 +128,7 @@ public class Query {
         }
 
         String query = sb.toString();
-        System.out.println(query);
+        Logger.debug("The query is: " + query);
         return query;
     }
 

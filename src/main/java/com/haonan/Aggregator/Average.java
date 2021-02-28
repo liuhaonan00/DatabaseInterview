@@ -5,7 +5,6 @@ import com.haonan.Database.Tuple;
 import com.haonan.Database.View;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author: create by Hao Nan Liu
@@ -14,21 +13,22 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class Average {
     private String [] labels;
-    private Map<String, Integer> labelMap;
+    private Map<String, Integer> labelIdxMap;
     private String [] targetFormats;
-    private ConcurrentHashMap<String, AvgInfo> map;
+    private Map<String, AvgInfo> kvMap;
     private int avgLabelIdx = -1;
 
     public Average(View view, String [] groupByLabels, String avgLabel) throws Exception {
         labels = view.getLabels();
-        labelMap = new HashMap<>();
+        labelIdxMap = new HashMap<>();
+        kvMap = new HashMap<>();
 
         String [] formats = view.getFormats();
         targetFormats = new String[formats.length];
         //get formats
         for (int i = 0; i < labels.length; i++) {
             //update label index map
-            labelMap.put(labels[i], i);
+            labelIdxMap.put(labels[i], i);
 
             //update label format
             if (labels[i].equals(avgLabel)) {
@@ -68,22 +68,15 @@ public class Average {
             int valueIdx = view.getLabelIndex(avgLabel);
             Object obj = t.getTuple()[valueIdx];
 
-            if (map.containsKey(key)) {
-                AvgInfo info = map.get(key);
-                try {
-                    info.addElement(obj);
-                } catch (Exception e) {
-                    System.out.println("Add value error");
-                }
+            if (kvMap.containsKey(key)) {
+                AvgInfo info = kvMap.get(key);
+                info.addElement(obj);
             } else {
                 AvgInfo info = new AvgInfo();
-                try {
-                    info.addElement(obj);
-                    map.put(key, info);
-                } catch (Exception e) {
-                    System.out.println("Add value error");
-                }
+                info.addElement(obj);
+                kvMap.put(key, info);
             }
+
         }
 
     }
@@ -91,7 +84,7 @@ public class Average {
     public View generateResultView() throws Exception {
         View view = new View(labels, targetFormats);
         //generate tuple
-        for (Map.Entry<String, AvgInfo> entry : map.entrySet()) {
+        for (Map.Entry<String, AvgInfo> entry : kvMap.entrySet()) {
             String keys = entry.getKey();
             String [] labelValueKey = keys.split("-");
             Object [] tupleObj = new Object[labels.length];
@@ -99,7 +92,7 @@ public class Average {
                 String label = labelValue.split(":")[0];
                 String valueStr = labelValue.split(":")[1];
 
-                int labelIdx = labelMap.get(label);
+                int labelIdx = labelIdxMap.get(label);
 
                 if (valueStr.equals("NULL")) {
                     tupleObj[labelIdx] = null;
@@ -158,7 +151,7 @@ public class Average {
                 throw new Exception("Error format: " + v);
             }
 
-            sum = sum + (double) v;
+            sum = sum + Double.parseDouble(v.toString());
             count++;
         }
 

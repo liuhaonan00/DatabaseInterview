@@ -10,7 +10,7 @@ import java.util.List;
  **/
 public class Page {
     private int MAX_SIZE = 10000;
-    List<Tuple> tuples;
+    private List<Tuple> tuples;
 
     public Page() {
         tuples = new ArrayList<>();
@@ -22,6 +22,10 @@ public class Page {
 
     public void addTuple(Tuple t) {
         tuples.add(t);
+    }
+
+    public List<Tuple> getTuples() {
+        return tuples;
     }
 
 }

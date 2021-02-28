@@ -13,36 +13,72 @@ import java.util.*;
 public class Table {
     private String tableName;
     private String [] labels;
-    private Map<String, String> labelFormatMap;
+    private String [] formats;
+    private Map<String, Integer> labelIdxMap;
     private int currentSize = 0;
     private List<Page> pages;
 
     public Table(String name, String [] labels) throws Exception {
         tableName = name;
         this.labels = labels;
-        labelFormatMap = new HashMap<>();
+        formats = new String[labels.length];
+        labelIdxMap = new HashMap<>();
 
-        for (String label: labels) {
-            if (labelFormatMap.containsKey(label)) {
+        for (int i = 0; i < labels.length; i++) {
+            String label = labels[i];
+            if (labelIdxMap.containsKey(label)) {
                 throw new Exception("Duplicate column name: " + label);
             }
-            labelFormatMap.put(label, Constants.INT);
+            labelIdxMap.put(label, i);
+            formats[i] = Constants.INT;
         }
 
         pages = new ArrayList<>();
 
     }
 
+    public View getViewFromTable(String [] targetLabels) throws Exception {
+        String [] targetFormats = new String[targetLabels.length];
+        for (int i = 0; i < targetLabels.length; i++) {
+            int idx = labelIdxMap.get(targetLabels[i]);
+            targetFormats[i] = formats[idx];
+        }
+
+        //init view
+        View view = new View(targetLabels, targetFormats);
+
+        //add data
+        if (currentSize > 0) {
+            for (Page page: pages) {
+                List<Tuple> tuples = page.getTuples();
+                for (Tuple tuple: tuples) {
+                    Object [] targetObjs = new Object[targetLabels.length];
+                    Object [] objs = tuple.getTuple();
+
+                    for (int i = 0; i < targetLabels.length; i++) {
+                        int idx = labelIdxMap.get(targetLabels[i]);
+                        targetObjs[i] = objs[idx];
+                    }
+                    view.insertTuple(targetObjs);
+                }
+
+
+            }
+        }
+        return view;
+    }
+
+
     public String getTableName() {
         return tableName;
     }
 
     public String getFormat(String label) throws Exception {
-        if (!labelFormatMap.containsKey(label)) {
+        if (!labelIdxMap.containsKey(label)) {
             throw new Exception("Cannot find labels in the Table " + tableName);
         }
-
-        return labelFormatMap.get(label);
+        int idx = labelIdxMap.get(label);
+        return formats[idx];
 
     }
 
@@ -52,7 +88,7 @@ public class Table {
         }
         Object [] objects = new Object[labels.length];
         for (int i = 0; i < labels.length; i++) {
-            String format = labelFormatMap.get(labels[i]);
+            String format = getFormat(labels[i]);
             if (t[i].equals("") && !format.equals(Constants.STR)) {
                 objects[i] = null;
                 continue;

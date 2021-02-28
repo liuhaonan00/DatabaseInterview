@@ -33,8 +33,7 @@ public class DBService {
 //        System.out.println("Reading database ... ");
 
         String fileName = classLoader.getResource("csv" + File.separator + "data1.csv").getPath();
-
-        System.out.println(fileName);
+        Logger.info("The data path is: " + fileName);
         LoadData.readData(fileName, "foo");
 //
 
@@ -42,7 +41,7 @@ public class DBService {
 //        Scanner input = new Scanner(System.in);
 //        String queryStr = input.nextLine();
         String queryStr = "select a, avg(b) from foo group by a";
-        System.out.println(queryStr);
+
         Query query = new Query(queryStr);
         View resultView = query.getResult();
         resultView.printView();
