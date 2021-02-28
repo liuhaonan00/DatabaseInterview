@@ -1,8 +1,7 @@
 package com.haonan.Core;
 
 import com.haonan.Common.Constants;
-import com.haonan.fileTest;
-import org.junit.Assert;
+import com.haonan.Common.Library;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,17 +23,11 @@ public class QueryTest {
         String filePath = classLoader
                 .getResource("Core" + File.separator +"QueryTest.csv").getPath();
 
-        LoadData.readData(filePath, tableName);
+        Library.readData(filePath, tableName);
 
 
     }
 
-//    @Test
-//    public void parseQuery() throws Exception {
-//        String queryStr = "select a, c, avg(b) from foo group by a,c ;";
-//        Query query = new Query(queryStr);
-//
-//    }
 
     @Test
     public void parseQuery() throws Exception {

@@ -61,8 +61,6 @@ public class Table {
                     }
                     view.insertTuple(targetObjs);
                 }
-
-
             }
         }
         return view;
