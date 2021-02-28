@@ -14,14 +14,14 @@ import java.util.Arrays;
  * @description:
  **/
 public class Query {
-    private String query;
-    private String tableName;
-    private Table table;
-    private String [] labels;
-    private String [] groupBy;
-    private String [] formats;
+    protected String query;
+    protected String tableName;
+    protected Table table;
+    protected String [] labels;
+    protected String [] groupBy;
+    protected String [] formats;
 
-    String aggregateLabel = "";
+    private String aggregateLabel = "";
 
     public Query(String q) throws Exception {
         this.query = preprocess(q);

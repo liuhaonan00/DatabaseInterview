@@ -6,12 +6,12 @@ package com.haonan.Common;
  * @description:
  **/
 public class Logger {
-    private static int logLevel = Constants.INFO;
+    private static int logLevel = 1;
 
     public static void setLogLevel(String level) {
         if (level.toLowerCase().equals("debug")) {
             logLevel = Constants.DEBUG;
-            debug("The log level has been setted to [DEBUG]");
+            debug("The log level has been seted to [DEBUG]");
         }
     }
 

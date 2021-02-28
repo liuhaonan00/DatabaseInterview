@@ -15,7 +15,11 @@ public class DB {
         tableMap.put(t.getTableName(), t);
     }
 
-    public static Table getTable(String tableName) {
-        return tableMap.getOrDefault(tableName, null);
+    public static Table getTable(String tableName) throws Exception {
+        if (!tableMap.containsKey(tableName)) {
+            throw new Exception("There is no such table: " + tableName);
+        }
+
+        return tableMap.get(tableName);
     }
 }

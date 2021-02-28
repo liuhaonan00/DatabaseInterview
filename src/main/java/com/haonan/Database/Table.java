@@ -75,7 +75,7 @@ public class Table {
 
     public String getFormat(String label) throws Exception {
         if (!labelIdxMap.containsKey(label)) {
-            throw new Exception("Cannot find labels in the Table " + tableName);
+            throw new Exception("Cannot find label " + label + " in the table " + tableName);
         }
         int idx = labelIdxMap.get(label);
         return formats[idx];

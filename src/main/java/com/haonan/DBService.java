@@ -40,7 +40,7 @@ public class DBService {
         System.out.println("Please input valid sql query");
 //        Scanner input = new Scanner(System.in);
 //        String queryStr = input.nextLine();
-        String queryStr = "select a, avg(b) from foo group by a";
+        String queryStr = "select avg(b), a from foo group by a";
 
         Query query = new Query(queryStr);
         View resultView = query.getResult();

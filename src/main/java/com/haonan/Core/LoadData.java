@@ -35,8 +35,8 @@ public class LoadData {
                 t.addData(data);
             }
 
-            System.out.println(t.getTableName());
-            System.out.println(t.getDataSize());
+//            System.out.println(t.getTableName());
+//            System.out.println(t.getDataSize());
 
             DB.addTable(t);
 
