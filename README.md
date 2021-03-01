@@ -1,4 +1,4 @@
-# DatabaseInterview
+# Database Interview Project
 This is the database interview project, which is written by Haonan Liu
 
 ### 编译环境
@@ -14,6 +14,7 @@ Usage:
 ```
 java -jar target/DatabaseInterview-1.0-SNAPSHOT-jar-with-dependencies.jar $CSV_PATH
 
+SQL query
 ```
 
 Example:
@@ -25,7 +26,7 @@ select a, avg(b) from foo group by a;
 ```
 
 ### 整体架构
-1 主程序为 `DBService`
+1 主程序为 `DBService`  
 2 代码主要架构
 - Database 数据库主要组成部件 
     - DB数据库
@@ -49,6 +50,7 @@ select a, avg(b) from foo group by a;
 
 
 
+
 ### 优化方式
 1 多线程：
 - 当前程序为单线程，如果表中数据量比较大，在生成View和聚合运输的过程中速度会比较慢。可以使用多线程，在聚合的过程中会省出大量时间
@@ -56,5 +58,4 @@ select a, avg(b) from foo group by a;
 2 使用磁盘存储数据
 - 我在设计的过程中已经考虑使用Heap Page块进行数据储存，如果能够直接从磁盘读取数据，将减少对于内存的使用
 
-3 
 

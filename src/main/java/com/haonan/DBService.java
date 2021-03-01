@@ -57,12 +57,6 @@ public class DBService {
             }
 
         }
-
-
-//        String queryStr = "select avg(b), a from foo group by a";
-
-
-
     }
 
     public static void printUsage() {
