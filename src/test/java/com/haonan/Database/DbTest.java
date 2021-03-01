@@ -1,8 +1,6 @@
-package com.haonan.Core;
+package com.haonan.Database;
 
 import com.haonan.Common.Library;
-import com.haonan.Database.DB;
-import com.haonan.Database.Table;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,7 +19,7 @@ public class DbTest {
     @BeforeClass
     public static void setUp() {
         filePath = classLoader
-                .getResource("Core/DbTest.csv").getPath();
+                .getResource("Database/DbTest.csv").getPath();
         Library.readData(filePath, "foo");
     }
 

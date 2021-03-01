@@ -11,12 +11,12 @@ import java.util.*;
  * @description:
  **/
 public class Table {
-    private String tableName;
-    private String [] labels;
-    private String [] formats;
-    private Map<String, Integer> labelIdxMap;
-    private int currentSize = 0;
-    private List<Page> pages;
+    protected String tableName;
+    protected String [] labels;
+    protected String [] formats;
+    protected Map<String, Integer> labelIdxMap;
+    protected int currentSize = 0;
+    protected List<Page> pages;
 
     public Table(String name, String [] labels) throws Exception {
         tableName = name;
@@ -40,8 +40,14 @@ public class Table {
     public View getViewFromTable(String [] targetLabels) throws Exception {
         String [] targetFormats = new String[targetLabels.length];
         for (int i = 0; i < targetLabels.length; i++) {
-            int idx = labelIdxMap.get(targetLabels[i]);
-            targetFormats[i] = formats[idx];
+            try {
+                int idx = labelIdxMap.get(targetLabels[i]);
+                targetFormats[i] = formats[idx];
+            } catch (Exception e) {
+                throw new Exception("There is no label: " + targetLabels[i] + " in the table");
+            }
+
+
         }
 
         //init view
@@ -82,6 +88,8 @@ public class Table {
 
     public void addData(String [] t) throws Exception {
         if (t.length != labels.length) {
+            System.out.println(t.length);
+
             throw new Exception("The length of the tuple is not equal to current table");
         }
         Object [] objects = new Object[labels.length];

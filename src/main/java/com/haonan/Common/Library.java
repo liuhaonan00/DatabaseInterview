@@ -28,7 +28,7 @@ public class Library {
             String line = null;
             List<String []> dataList = new ArrayList<>();
             while((line=reader.readLine()) != null){
-                String[] data = line.split(",");
+                String[] data = line.split(",", labels.length);
                 dataList.add(data);
                 lineNum++;
             }
