@@ -48,7 +48,7 @@ public class Average {
     private void processAggregate(View view, String [] groupByLabels, String avgLabel) throws Exception {
         List<Tuple> tupleList = view.getTuples();
         int coreNum = Runtime.getRuntime().availableProcessors();
-        System.out.println("Core number: " + coreNum);
+//        System.out.println("Core number: " + coreNum);
 
         for (Tuple t: tupleList) {
             String [] keys = new String[groupByLabels.length];
@@ -144,7 +144,7 @@ public class Average {
 
         void addElement(Object v) throws Exception {
             if (v == null) {
-                count++;
+                return;
             }
 
             if (v instanceof String) {

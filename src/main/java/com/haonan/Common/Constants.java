@@ -6,7 +6,7 @@ package com.haonan.Common;
  * @description:
  **/
 public class Constants {
-    public static String LOG_LEVEL = "info";
+
     public static final String INT = "Integer";
     public static final String FLOAT = "Float";
     public static final String DOUBLE = "Double";

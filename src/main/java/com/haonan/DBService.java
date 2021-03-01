@@ -1,8 +1,8 @@
 package com.haonan;
 
 import com.haonan.Aggregator.Average;
+import com.haonan.Common.Library;
 import com.haonan.Common.Logger;
-import com.haonan.Core.LoadData;
 import com.haonan.Core.Query;
 import com.haonan.Database.Table;
 import com.haonan.Database.View;
@@ -20,42 +20,46 @@ import java.util.Scanner;
 public class DBService {
     private static ClassLoader classLoader = DBService.class.getClassLoader();
 
-
     public static void main(String[] args) throws Exception {
-        Logger.setLogLevel("debug");
+        if (args.length < 1) {
+            printUsage();
+            System.exit(1);
+        }
+        Logger.info("Starting the SQL");
+        Logger.info("Reading database ... ");
 
-//        System.out.println("Starting the SQL");
-//        if (args.length < 2) {
-//            printUsage();
-//            System.exit(1);
-//        }
-//
-//        System.out.println("Reading database ... ");
+        if (args.length >= 2) {
+            String logLevel = args[1];
+            if (logLevel.toLowerCase().equals("debug")) {
+                Logger.setLogLevel("debug");
+            }
+        }
 
-        String fileName = classLoader.getResource("csv" + File.separator + "data1.csv").getPath();
-        Logger.info("The data path is: " + fileName);
-        LoadData.readData(fileName, "foo");
-//
-
-        System.out.println("Please input valid sql query");
-//        Scanner input = new Scanner(System.in);
-//        String queryStr = input.nextLine();
-        String queryStr = "select a, avg(b) from foo group by a";
-
-        Query query = new Query(queryStr);
-        View resultView = query.getResult();
-        resultView.printView();
+        try {
+            String fileName = args[0];
+            Library.readData(fileName, "foo");
+        } catch (Exception e) {
+            Logger.error("Load data error: " + e.getMessage());
+            System.exit(1);
+        }
 
 
+        while(true) {
+            Logger.info("Please input valid sql query");
+            Scanner input = new Scanner(System.in);
+            String queryStr = input.nextLine();
+            try {
+                Query query = new Query(queryStr);
+                View resultView = query.getResult();
+                resultView.printView();
+            } catch (Exception e) {
+                Logger.error("SQL error: " + e.getMessage());
+            }
 
-//        Average average = new Average();
-//        Map<Integer, Double> map = average.getAvg(table, "a", "b");
-//        for (Map.Entry<Integer, Double> entry : map.entrySet()) {
-//            int key = entry.getKey();
-//            double value = map.get(key);
-//            System.out.println("a = " + key + ", avg(b) = " + value);
-//        }
+        }
 
+
+//        String queryStr = "select avg(b), a from foo group by a";
 
 
 
@@ -63,6 +67,8 @@ public class DBService {
 
     public static void printUsage() {
         System.out.println("Usage: ");
-        System.out.println("java -jar DatabaseInterview-1.0-SNAPSHOT-jar-with-dependencies.jar DATASOURCE");
+        System.out.println("java -jar DatabaseInterview-1.0-SNAPSHOT-jar-with-dependencies.jar $DATA_SOURCE");
+        System.out.println("To upgrade debug log level: ");
+        System.out.println("java -jar DatabaseInterview-1.0-SNAPSHOT-jar-with-dependencies.jar $DATA_SOURCE DEBUG");
     }
 }
