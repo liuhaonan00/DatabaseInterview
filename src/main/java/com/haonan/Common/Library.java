@@ -4,6 +4,7 @@ import com.haonan.Database.DB;
 import com.haonan.Database.Table;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,31 +19,26 @@ public class Library {
     /*
         read data to db
      */
-    public static void readData(String path, String tableName) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(path));
-            String [] labels = reader.readLine().split(",");
+    public static void readData(String path, String tableName) throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        String [] labels = reader.readLine().split(",");
 
-            int lineNum = 0;
-            //read the first line
-            String line = null;
-            List<String []> dataList = new ArrayList<>();
-            while((line=reader.readLine()) != null){
-                String[] data = line.split(",", labels.length);
-                dataList.add(data);
-                lineNum++;
-            }
-
-            Table t = new Table(tableName, labels);
-            for (String [] data: dataList) {
-                t.addData(data);
-            }
-
-            DB.addTable(t);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        int lineNum = 0;
+        //read the first line
+        String line = null;
+        List<String []> dataList = new ArrayList<>();
+        while((line=reader.readLine()) != null){
+            String[] data = line.split(",", labels.length);
+            dataList.add(data);
+            lineNum++;
         }
+
+        Table t = new Table(tableName, labels);
+        for (String [] data: dataList) {
+            t.addData(data);
+        }
+
+        DB.addTable(t);
 
     }
 

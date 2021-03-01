@@ -19,7 +19,7 @@ public class QueryTest {
     private static ClassLoader classLoader = QueryTest.class.getClassLoader();
     private static String tableName = "foo";
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws Exception {
         String filePath = classLoader
                 .getResource("Core" + File.separator +"QueryTest.csv").getPath();
 

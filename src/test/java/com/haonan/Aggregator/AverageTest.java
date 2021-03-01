@@ -67,7 +67,6 @@ public class AverageTest {
 
 
     public boolean hasValue(Object [] objs, List<Tuple> tupleList) {
-        System.out.println(Arrays.toString(objs));
         for (Tuple t: tupleList) {
             Object [] tupleObjs = t.getTuple();
 

@@ -11,7 +11,7 @@ public class Logger {
     public static void setLogLevel(String level) {
         if (level.toLowerCase().equals("debug")) {
             logLevel = Constants.DEBUG;
-            debug("The log level has been seted to [DEBUG]");
+            info("The log level has been set to [DEBUG]");
         }
     }
 
@@ -23,5 +23,9 @@ public class Logger {
         if (logLevel >= Constants.DEBUG) {
             System.out.println("[DEBUG] " + msg);
         }
+    }
+
+    public static void error(String msg) {
+        System.out.println("[ERROR] " + msg);
     }
 }

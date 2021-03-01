@@ -17,7 +17,7 @@ public class DbTest {
     private static String filePath;
     private static String tableName = "foo";
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws Exception {
         filePath = classLoader
                 .getResource("Database/DbTest.csv").getPath();
         Library.readData(filePath, "foo");
